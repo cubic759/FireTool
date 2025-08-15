@@ -1,0 +1,1 @@
+pyinstaller --onefile --noconsole --icon=stopwatch.ico --add-data "lcd_alarm.ttf;." stopwatch.py
