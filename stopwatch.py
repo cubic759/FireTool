@@ -22,12 +22,13 @@ main:
 }
 
 fix topbar bug: after fullscreen buttons won't back at once, and shrink error
-
 save and read settings (countdown time settings)
+link to github
+
 clear code
 reset timer: just copy the controlaction
 reading copy and paste, delete and backspace, check hyperlink
-link to github
+
 
 memo task: 按照即兴教程练习吉他、贝斯和键盘：选择一个和弦，然后唱出一段包含6-9个音符的旋律，然后在乐器上弹奏出来，换不同把位弹
 """
@@ -110,8 +111,8 @@ class SettingWindowTypes(Enum):  # ANCHOR enum
 
 
 GAP = 12
-HIDDEN_SIZE = 40   # visible pixels when hidden
-ANIM_TIME = 100   # ms
+HIDDEN_SIZE = 40  # visible pixels when hidden
+ANIM_TIME = 100  # ms
 checkbox_split_pattern = re.compile(r"- \[( |x)\] ")
 markdown_link_pattern = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 
@@ -1820,8 +1821,8 @@ class CheckList(QWidget):  # ANCHOR --CheckList
             "top-left",
             "top",
         ]
-        self.snapped_edge = None   # "left", "right", "top", "bottom"
-        self.state = "shown"       # "shown" or "hidden"
+        self.snapped_edge = None  # "left", "right", "top", "bottom"
+        self.state = "shown"  # "shown" or "hidden"
         self.animation = QPropertyAnimation(self, b"geometry", self)
         self.start_pos = None
         self.start_win_pos = None
@@ -2704,7 +2705,7 @@ class CheckList(QWidget):  # ANCHOR --CheckList
 
             # self.tooltip.setText(self.tasks[self.task_index])
         event.accept()
-        
+
     def snap_to_edge(self, edge):
         """Call this after your snap logic"""
         self.snapped_edge = edge
@@ -2730,19 +2731,19 @@ class CheckList(QWidget):  # ANCHOR --CheckList
         if self.snapped_edge == "left":
             shown = QRect(screen.left() + GAP, geo.y(), geo.width(), geo.height())
         elif self.snapped_edge == "right":
-            shown = QRect(screen.right() - geo.width() - GAP,
-                            geo.y(), geo.width(), geo.height())
+            shown = QRect(
+                screen.right() - geo.width() - GAP, geo.y(), geo.width(), geo.height()
+            )
         elif self.snapped_edge == "top":
-            shown = QRect(geo.x(), screen.top() + GAP,
-                            geo.width(), geo.height())
+            shown = QRect(geo.x(), screen.top() + GAP, geo.width(), geo.height())
         elif self.snapped_edge == "bottom":
-            shown = QRect(geo.x(), screen.bottom() - geo.height() - GAP,
-                            geo.width(), geo.height())
+            shown = QRect(
+                geo.x(), screen.bottom() - geo.height() - GAP, geo.width(), geo.height()
+            )
         else:
             return
 
         self.animate_to(shown, "shown")
-        
 
     def leaveEvent(self, a0):
         # QApplication.restoreOverrideCursor()
@@ -2754,17 +2755,27 @@ class CheckList(QWidget):  # ANCHOR --CheckList
         screen = QApplication.primaryScreen().availableGeometry()
 
         if self.snapped_edge == "left":
-            hidden = QRect(screen.left() - geo.width() + HIDDEN_SIZE,
-                            geo.y(), geo.width(), geo.height())
+            hidden = QRect(
+                screen.left() - geo.width() + HIDDEN_SIZE,
+                geo.y(),
+                geo.width(),
+                geo.height(),
+            )
         elif self.snapped_edge == "right":
-            hidden = QRect(screen.right() - HIDDEN_SIZE,
-                            geo.y(), geo.width(), geo.height())
+            hidden = QRect(
+                screen.right() - HIDDEN_SIZE, geo.y(), geo.width(), geo.height()
+            )
         elif self.snapped_edge == "top":
-            hidden = QRect(geo.x(), screen.top() - geo.height() + HIDDEN_SIZE,
-                            geo.width(), geo.height())
+            hidden = QRect(
+                geo.x(),
+                screen.top() - geo.height() + HIDDEN_SIZE,
+                geo.width(),
+                geo.height(),
+            )
         elif self.snapped_edge == "bottom":
-            hidden = QRect(geo.x(), screen.bottom() - HIDDEN_SIZE,
-                            geo.width(), geo.height())
+            hidden = QRect(
+                geo.x(), screen.bottom() - HIDDEN_SIZE, geo.width(), geo.height()
+            )
         else:
             return
 
@@ -2891,11 +2902,11 @@ class CheckList(QWidget):  # ANCHOR --CheckList
         # Check bottom
         elif self_rect.bottom() - GAP + partner_rect.height() <= screen_rect.bottom():
             self.stopwatch.move(self_rect.left(), self_rect.bottom() - GAP)
-            
+
     def update_snapped_edge(self):
         screen = QApplication.primaryScreen().availableGeometry()
         geo = self.geometry()
-    
+
         if abs(geo.left() - screen.left()) <= GAP:
             self.snapped_edge = "left"
         elif abs(geo.right() - screen.right()) <= GAP:
@@ -3073,7 +3084,7 @@ class CheckList(QWidget):  # ANCHOR --CheckList
                 action.setCheckable(val)
                 break
 
-    def contextMenuEvent(self, event):#ANCHOR - contextMenuEvent
+    def contextMenuEvent(self, event):  # ANCHOR - contextMenuEvent
         widget_under_mouse = QApplication.instance().widgetAt(QCursor.pos())
         # print(widget_under_mouse)
         if (
@@ -3613,6 +3624,7 @@ class Stopwatch(QWidget):  # ANCHOR --Stopwatch
         self.menu.addAction("Minimize to tray", self.hideToTray)
         self.menu.addAction("Full Screen", self.fullOrNormal)
         self.menu.addAction("Add to Starup", self.add_to_startup)
+        self.menu.addAction("Github page", self.jumpToGithubPage)
         self.menu.addAction("Exit", QApplication.quit)
         self.change_action_checkable("Full Screen", True)
 
@@ -4051,7 +4063,7 @@ class Stopwatch(QWidget):  # ANCHOR --Stopwatch
         # Vertical edges
         if dy > 0:
             t_bottom = (screen.bottom() - h - GAP - y0) / dy
-            print(t_bottom)#t bottom can be 0
+            print(t_bottom)  # t bottom can be 0
             t_values.append(t_bottom)
         elif dy < 0:
             t_top = (screen.top() + GAP - y0) / dy
@@ -4502,7 +4514,7 @@ class Stopwatch(QWidget):  # ANCHOR --Stopwatch
         self.back_label.setText("88:88")
         self.time_label.setText(text)
 
-    def contextMenuEvent(self, event):#ANCHOR - contextMenuEvent
+    def contextMenuEvent(self, event):  # ANCHOR - contextMenuEvent
         widget_under_mouse = QApplication.instance().widgetAt(QCursor.pos())
         # print(widget_under_mouse)
         if (
@@ -4873,6 +4885,9 @@ class Stopwatch(QWidget):  # ANCHOR --Stopwatch
             else:
                 high = mid - 1
         return best_size
+
+    def jumpToGithubPage(self):
+        webbrowser.open("https://github.com/cubic759/FireTool")
 
     def closeEvent(self, event):
         # QApplication.restoreOverrideCursor()
